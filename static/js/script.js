@@ -23,7 +23,6 @@ function lazyLoad(poContainer)
 {
 	/*var lstrSource   = poContainer.attr('data-src');
 	var lstrPosition = poContainer.attr('data-position');
-
 	$('<img>').attr('src', lstrSource).load(function()
 	{
 		poContainer.css('background-image', 'url("'+ lstrSource +'")');
