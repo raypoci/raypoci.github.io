@@ -33,7 +33,7 @@ function applyNavigation()
 
 function applyClickEvent()
 {
-	$('a[href*=#]').on('click', function(e)
+	$('a').on('click', function(e)
 	{
 		e.preventDefault();
 		
