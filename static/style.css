@@ -40,7 +40,8 @@ hr { margin: 40px 0px; border-color: #727878; opacity: 0.2; filter:alpha(opacity
 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/background.jpg', sizingMethod='scale');
 	
 	margin-bottom: 0px;
-	padding: 5em inherit;
+	padding: 0px;
+	position: absolute;
 }  
 /*.jumbotron:before { 
 	border: 1px solid #FFFFFF;
