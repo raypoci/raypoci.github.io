@@ -18,18 +18,7 @@ function applyHeader()
 	
 }	
 
-function lazyLoad(poContainer)
-{
-	var lstrSource   = poContainer.attr('data-src');
-	var lstrPosition = poContainer.attr('data-position');
-	$('<img>').attr('src', lstrSource).load(function()
-	{
-		poContainer.css('background-image', 'url("'+ lstrSource +'")');
-		poContainer.css('background-position', lstrPosition);
-		poContainer.css('-ms-filter', '"progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'' + lstrSource + '\', sizingMethod=\'scale\')"');
-		poContainer.css('filter', 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\'' + lstrSource + '\', sizingMethod=\'scale\'');
-	});
-}
+
 
 /* NAVIGATION FUNCTIONS */
 
@@ -124,7 +113,7 @@ function applyResize()
 	}); 
 }
 
-/* HASH FUNCTION */
+/* HASH FUNCTION 
 
 function checkHash()
 {
@@ -136,67 +125,4 @@ function checkHash()
 	}
 }
 
-/* IE7- FALLBACK FUNCTIONS */
-
-function checkBrowser()
-{
-	var loBrowserVersion = getBrowserAndVersion();
-	
-	if(loBrowserVersion.browser == 'Explorer' && loBrowserVersion.version < 8)
-	{ 
-		$('#upgrade-dialog').modal({
-			backdrop: 'static',
-			keyboard: false
-		});
-	}
-}
-
-function getBrowserAndVersion() 
-{
-	var laBrowserData = [{
-		string: 		navigator.userAgent,
-		subString: 		'MSIE',
-		identity: 		'Explorer',
-		versionSearch: 	'MSIE'
-	}];
-	
-	return {
-		browser: searchString(laBrowserData) || 'Modern Browser',
-		version: searchVersion(navigator.userAgent) || searchVersion(navigator.appVersion) || '0.0'
-	};
-}
-
-function searchString(paData) 
-{
-	for(var i = 0; i < paData.length; i++)	
-	{
-		var lstrDataString 	= paData[i].string;
-		var lstrDataProp 	= paData[i].prop;
-		
-		this.versionSearchString = paData[i].versionSearch || paData[i].identity;
-		
-		if(lstrDataString) 
-		{
-			if(lstrDataString.indexOf(paData[i].subString) != -1)
-			{
-				return paData[i].identity;
-			}
-		}
-		else if(lstrDataProp)
-		{
-			return paData[i].identity;
-		}
-	}
-}
-	
-function searchVersion(pstrDataString) 
-{
-	var lnIndex = pstrDataString.indexOf(this.versionSearchString);
-	
-	if(lnIndex == -1) 
-	{
-		return;
-	}
-	
-	return parseFloat(pstrDataString.substring(lnIndex + this.versionSearchString.length + 1));
-}	
+*/
