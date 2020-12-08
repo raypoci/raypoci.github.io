@@ -1,0 +1,76 @@
+<!-- author ben lawson balawson@bu.edu -->
+<head>
+    <title>Create an account!</title>
+</head>
+{%if not supress%}
+<h1> Email already in use! Use another one or <a href="/login">login</a></h1>
+{% endif %}
+    <body>
+        <div class="title">
+            <h1>Enter your information below</h1>
+        </div>
+        <div id="content">
+            <form method="post" action="{{ url_for('register_user') }}">
+                <label for="email">Enter your email:</label>
+                <input type="email" name="email" /><br />
+                <label for="password">Enter password:</label>
+                <input type="password" name="password" /><br />
+                <input type="submit" />
+            </form>
+         </div>
+    </body>
+<a href='/'>Home</a>
+<form action="/register/" method="POST" enctype="multipart/form-data">
+						    <label for="firstname">First Name</label>  
+							<input type="text" placeholder="First Name" name="firstname" required='true'><br />
+							
+							<label for="lastname">Last Name</label>  
+							<input type="text" placeholder="Last Name" name="lastname" required='true'><br />
+						
+							<label for="email">Enter your email:</label>
+							<input type="email" placeholder="Email" name="email" required='true'><br />
+						
+							<label for="password">Enter password:</label>
+							<input type="password" placeholder="Password" name="password" required='true'><br />
+				
+						
+							<label for="birthday">Birthday</label> 
+							<input type="date" placeholder="date of birth (format:1994-12-12)" name="birthday" required='true'><br />
+				
+
+							<label for="bio">Bio</label> 
+							<input type="text" placeholder="Bio" name="bio"><br />
+					
+							<label for="hometown">Hometown</label> 
+							<input type="text" placeholder="Hometown" name="hometown"><br />
+					
+						<div class="form-group">
+							<input type="radio"
+							       class="form-control"
+							       placeholder="Gender"
+							       name="gender"
+							       value =
+							       "Female">Female<br>
+							<input type="radio"
+							       class="form-control"
+							       placeholder="Gender"
+							       name="gender"
+							       value =
+							       "Male">Male<br>
+							<input type="radio"
+							       class="form-control"
+							       placeholder="Gender"
+							       name="gender"
+							       value =
+							       "Other">Other<br>
+							
+						</div>
+
+					
+							<label for="photo">Upload Profile Picture:</label>
+							<input type="file" name="photo"><br />
+							<small > <i><b>Upload Profile Picture</b></i></small>
+						  </div>
+
+						<p> <button type="submit" value="Search" class="btn btn-default submit">Sign Up Now!</button></p>
+					</form>

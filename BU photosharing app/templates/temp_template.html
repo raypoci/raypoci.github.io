@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <title>Bootstrap Example</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	  <style>    
+		/* Set black background color, white text and some padding */
+		footer {
+		  background-color: #555;
+		  color: white;
+		  padding: 15px;
+		}
+	  </style>
+	</head>
+	<body>
+
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+		<div class="navbar-header">
+		  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>                        
+		  </button>
+		  <a class="navbar-brand" href="#">Logo</a>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+		  <ul class="nav navbar-nav">
+			<li><a href="/profile/home">Home</a></li>
+			<li class="active"><a href="/profile">Profile</a></li>
+		  </ul>
+		  <form class="navbar-form navbar-right" role="search">
+			<div class="form-group input-group">
+			  <input type="text" class="form-control" placeholder="Search..">
+			  <span class="input-group-btn">
+				<button class="btn btn-default" type="button">
+				  <span class="glyphicon glyphicon-search"></span>
+				</button>
+			  </span>        
+			</div>
+		  </form>
+		  <ul class="nav navbar-nav navbar-right">
+			<li><a href="#"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
+		  </ul>
+		</div>
+	  </div>
+	</nav>
+	  
+	<div class="container text-center">    
+	  <div class="row">
+		<div class="col-sm-3 well">
+		  <div class="well">
+			<p><a href="/profile">My Profile</a></p>
+			<img src="bird.jpg" class="img-circle" height="65" width="65" alt="Avatar">
+		  </div>
+		  <div class="well">
+			<p><a href="#">Interests</a></p>
+			{% if tags %}
+		
+			<p>
+			  <span class="label label-primary"><a href='#'>{{ tags[0] }} </a></span>
+			  <span class="label label-success"><a href='#'>{{ tags[1] }} </a></span>
+			  <span class="label label-info"><a href='#'> {{ tags[2] }} </a></span>
+			  <span class="label label-warning"><a href='#'> {{ tags[3] }}</a></span>
+			  <span class="label label-danger"><a href='#'>{{ tags[4] }}</a></span>
+			  <span class="label label-primary"><a href='#'>{{ tags[5] }}</a></span>
+			  <span class="label label-success"><a href='#'>{{ tags[6] }}</a></span>
+			  <span class="label label-info"><a href='#'>{{ tags[7]}}</a></span>
+			  <span class="label label-warning"><a href='#'>{{ tags[8] }}</a></span>
+			  <span class="label label-danger"><a href='#'>{{ tags[9] }}</a></span>
+			</p>	
+			
+			{% endif %}
+		  </div>
+		  <div class="alert alert-success fade in">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+			<p><strong>Ey!</strong></p>
+			People are looking at your profile. Find out who.
+		  </div>
+		  <p><a href="#">Link</a></p>
+		  <p><a href="#">Link</a></p>
+		  <p><a href="#">Link</a></p>
+		</div>
+		<div class="col-sm-7">
+		
+		  <div class="row">
+			<div class="col-sm-12">
+			  <div class="panel panel-default text-left">
+				<div class="panel-body">
+				  <p contenteditable="true">Status: Feeling Blue</p>
+				  <button type="button" class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-thumbs-up"></span> Like
+				  </button>     
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  </div>     
+	 
+	 
+		 <div class="col-sm-8 text-middle"> 
+		  <h1>Welcome to Photoshare </h1>
+		</div>
+		<div class="col-sm-8 text-left"> 
+		  <hr>
+
+		{% if photos %}
+			<ul>
+			{% for photo in photos %}
+			<div class="media">
+				<div class="media-left" "media-bottom">
+					<img src='data:image/png;base64, {{photo[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+				</div>
+				<div class="media-body" "media-bottom" >
+					<div class="article-metadata">
+						<a class="mr-2" href=#>{{photo[0]}}</a>
+						<small class="text-muted">{{ photo[8].strftime('%Y-%m-%d') }}</small>
+					</div>
+				</div>
+					<li><img src='data:image/png;base64, {{photo[5]}}' style="width:300px; height:300px;"/><br>
+					<strong>{{photo[0]}}</strong> <i>{{photo[7]}}</i></li>
+					<div>
+
+					<small class="text"> {{photo[9]}} Likes</small>
+					
+					</div>
+						<p id="area">
+				
+						<a href="/profile/home/{{ photo[6] }}/likes"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>
+						
+						<form action="/profile/home/addtag/" method="POST">
+							<textarea placeholder="Add tags.." name="tag" style="width:300px; height:40px;"></textarea>
+							<input name= 'photo_id' type="hidden" value="{{ photo[6] }}" >
+							<input type= 'submit' value="Add tag">
+						</form>
+						
+	
+						<!--<a href="/profile/home/addTag"><input type='text' name= "tag"style="border:1px solid blue;">Add Tag </input></a>	-->
+						</p>
+						
+						<!--
+						<form action="/profile/home/{{ photo[6] }}/likes" method="POST">
+							<input class="btn btn-default btn-sm" type="submit" value="Like" > <span class="glyphicon glyphicon-thumbs-up"></span> </input>
+							
+						</form>
+						-->
+					<button type="button" style="color:white;"class="btn btn-danger brn-sm mt-1 mb-1" data-toggle="modal" data-target="#deleteModal"> Delete</button>
+
+
+					
+						<!-- Delete Modal -->
+						  <div class="modal fade" id="likeModal" tabindex="-1" role="dialog" aria-labelledby="likeModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+							  <div class="modal-content">
+								<a href="#" > Link </a>
+								<div class="modal-header">
+								  <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+								  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								  </button>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								  <form action="/profile/home/{{ photo[6] }}/delete" method="POST">
+									<input class="btn btn-danger" type="submit" value="Delete">
+								  </form>
+								</div>
+							  </div>
+							</div>
+						</div>
+						
+
+					
+					<div><a href="/profile/home/{{photo[6]}}">View All Comments</a></div>
+					
+					{% if comments %}
+						<ul>
+						{% for comment in comments %}
+						<div class = "media">
+							<div class="media-left" "media-bottom">
+								<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+							</div>
+							<div class="media-body" "media-bottom">
+								<div class="article-metadata">
+									<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+									<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+									<p class="article-content">{{ comment[2] }}</p>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						</ul>
+					{% endif %}
+					<form action="{{ url_for('new_comment') }}"method="POST">
+						<textarea placeholder="Leave a Comment.." name="comment" style="width:300px; height:40px;"></textarea>
+						<br>
+						<!--<button id="btnComment" class="btn btn-sm btn-primary" type="button" style="align:middle;">Add Comment</button>-->
+						<br>
+						<input name= 'comment_photo_id' type="hidden" value="{{ photo[6] }}" >
+						<input type= 'submit' value="Add Comment">
+					</form>
+				</div>
+			
+			{% endfor %}
+			</ul>
+		{% endif %}   
+	</div>
+	 
+	 
+		<div class="col-sm-2 well">
+		  <div class="thumbnail">
+			<p>Upcoming Events:</p>
+			<img src="paris.jpg" alt="Paris" width="400" height="300">
+			<p><strong>Paris</strong></p>
+			<p>Fri. 27 November 2015</p>
+			<button class="btn btn-primary">Info</button>
+		  </div>      
+		  <div class="well">
+			<p>ADS</p>
+		  </div>
+		  <div class="well">
+			<p>ADS</p>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<footer class="container-fluid text-center">
+	  <p>Footer Text</p>
+	</footer>
+
+	</body>
+</html>

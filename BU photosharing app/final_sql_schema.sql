@@ -1,0 +1,21 @@
+CREATE DATABASE myphotoshare;
+USE myphotoshare;
+
+CREATE TABLE Users(user_id int4 PRIMARY KEY AUTO_INCREMENT, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(255) UNIQUE NOT NULL, date_of_birth VARCHAR(255) NOT NULL, profile_pic LONGBLOB NOT NULL, bio VARCHAR(255), hometown VARCHAR(255), gender VARCHAR(255), password VARCHAR(255) NOT NULL, contribution int4 DEFAULT 0, INDEX email_index (email));
+
+CREATE TABLE Albums (album_id int4 PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), owner_id int4 NOT NULL, date_of_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP, INDEX upid_user (owner_id), CONSTRAINT FOREIGN KEY (owner_id) REFERENCES Users(user_id) ON DELETE CASCADE);
+
+CREATE TABLE Photos(photo_id int4 PRIMARY KEY AUTO_INCREMENT, album_id int4, caption VARCHAR(255), data LONGBLOB, CONSTRAINT FOREIGN KEY(album_id) REFERENCES Albums(album_id) ON DELETE CASCADE);
+
+CREATE TABLE Tag_Photo(word VARCHAR(255) NOT NULL, photo_id int4 NOT NULL, CONSTRAINT FOREIGN KEY (photo_id) REFERENCES Photos(photo_id)ON DELETE CASCADE, PRIMARY KEY (word, photo_id));
+
+CREATE TABLE Friends(user_id int4 NOT NULL, friend_id int4 NOT NULL, CONSTRAINT FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE, CONSTRAINT FOREIGN KEY(friend_id) REFERENCES Users(user_id) ON DELETE CASCADE, PRIMARY KEY (user_id, friend_id));
+
+CREATE TABLE Comment(comment_id int4 PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL, owner_id int4 NOT NULL, date_of_comment TIMESTAMP DEFAULT CURRENT_TIMESTAMP, photo_id int4 NOT NULL, CONSTRAINT FOREIGN KEY (owner_id) REFERENCES Users(user_id) ON DELETE CASCADE, CONSTRAINT FOREIGN KEY (photo_id) REFERENCES Photos(photo_id) ON DELETE CASCADE);
+
+CREATE TABLE Likes ( user_id int4 NOT NULL, photo_id int4 NOT NULL, CONSTRAINT FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE, CONSTRAINT FOREIGN KEY (photo_id) REFERENCES Photos(photo_id) ON DELETE CASCADE, PRIMARY KEY(user_id, photo_id));
+
+CREATE TABLE NumLikes(photo_id int4 NOT NULL PRIMARY KEY, numLikes int4 DEFAULT 0, CONSTRAINT FOREIGN KEY(photo_id) REFERENCES Photos(photo_id) ON DELETE CASCADE);
+
+CREATE TABLE NumComments(photo_id int4 NOT NULL PRIMARY KEY, numComments int4 DEFAULT 0, CONSTRAINT FOREIGN KEY(photo_id) REFERENCES Photos(photo_id) ON DELETE CASCADE);
+

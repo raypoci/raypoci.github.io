@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Photoshare App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <script src="jquery-3.3.1.min.js">
+  </script>
+
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#"  >Logo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/profile/home">Home</a></li>
+		<li><a href='/profile'>Profile</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Logged in</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+
+		{% if toptags %}
+ 		<p>
+			  <span class="label label-primary"><a href='/profile/alluserstag/{{ toptags[0] }} /'>{{ toptags[0] }} </a></span>
+			  <span class="label label-success"><a href='{{ toptags[1] }}'>{{ toptags[1] }} </a></span>
+			  <span class="label label-info"><a href='{{ toptags[2] }} '> {{ toptags[2] }} </a></span>
+			  <span class="label label-warning"><a href='{{ toptags[3] }}'> {{ toptags[3] }}</a></span>
+			  <span class="label label-danger"><a href='{{ toptags[4] }}'>{{ toptags[4] }}</a></span>
+			  <span class="label label-primary"><a href='{{ toptags[5] }}'>{{ toptags[5] }}</a></span>
+			  <span class="label label-success"><a href='{{ toptags[6] }}'>{{ toptags[6] }}</a></span>
+			  <span class="label label-info"><a href='{{ toptags[7]}}'>{{ toptags[7]}}</a></span>
+			  <span class="label label-warning"><a href='{{ toptags[8] }}'>{{ toptags[8] }}</a></span>
+			  <span class="label label-danger"><a href='{{ toptags[9] }}'>{{ toptags[9] }}</a></span>
+		</p>	
+		{% endif %}
+    </div>
+	
+    <div class="col-sm-8 text-left"> 
+		<div class="row">
+			<div class="col-sm-8 text middle">
+				<div class="well">
+					<h1>Welcome to Photoshare</h1>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-sm-8 text middle">
+			{% if photos %}
+				{% for photo in photos %}
+				<div style="float: center;"class="media" >
+					<div class="media-left" "media-bottom">
+					<img src='data:image/png;base64, {{photo[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+					<a class="mr-2" href=#>{{photo[0]}}</a>
+					<small class="text-muted">{{ photo[8].strftime('%Y-%m-%d') }}</small>
+					</div>
+				</div>
+
+				<div>
+					<img src='data:image/png;base64, {{photo[5]}}' style="width:300px; height:300px;"/><br>
+					<strong>{{photo[0]}}</strong> <i>{{photo[7]}}</i>
+				</div>
+				<div>
+					<small class="text"> {{photo[9]}} Likes</small>
+				</div>
+					<span><a href="/profile/home/{{ photo[6] }}/likes"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>	</span>
+					
+					<span><div id="addfriend" <a href="/profile/home/{{ photo[1] }}/addfriend"><span class="glyphicon glyphicon-user"></span> Add Friend</a></div></span>
+					<span><div id="removefriend" style=" display:none; "<a href="/profile/home/{{ photo[1] }}/removefriend"><span class="glyphicon glyphicon-user"></span> Remove Friend</a></div></span>
+					<span><button id="toggle">toggle</button></span>
+					
+					<div ><a href="/profile/home/{{photo[6]}}">View All Comments</a></div>
+					
+				{% if comments %}
+					<ul>
+					{% for comment in comments %}
+					<div class = "media">
+						<div class="media-left" "media-bottom">
+							<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+							<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+							<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+							<div><p class="article-content">{{ comment[2] }}</p></div>
+						</div>
+					</div>
+					{% endfor %}
+					</ul>
+				{% endif %}
+				<form action="{{ url_for('profile_home') }}"method="POST">
+				<textarea placeholder="Leave a Comment.." name="comment" style="width:300px; height:40px;"></textarea>
+					<br>
+						<!--<button id="btnComment" class="btn btn-sm btn-primary" type="button" style="align:middle;">Add Comment</button>-->
+					<br>
+					<input name= 'comment_photo_id' type="hidden" value="{{ photo[6] }}" >
+					<input type= 'submit' value="Add Comment">
+				</form>
+				
+				{% endfor %}
+			{% endif %} 	
+			</div>
+		</div>
+	</div>
+		
+
+		<div class="col-sm-2 sidenav " style="float: right;">
+			<div class="row">
+				<div class="well">
+					<p>ADS</p>
+				</div>
+				<div class="well">
+					<p>ADS</p>
+				</div>
+			</div>
+	</div>
+</body>
+</html>

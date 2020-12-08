@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Photoshare Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+	body {font-family: Arial;}
+
+	/* Style the tab */
+	.tab {
+		overflow: hidden;
+		border: 1px solid #ccc;
+		background-color: #f1f1f1;
+	}
+
+	/* Style the buttons inside the tab */
+	.tab button {
+		background-color: inherit;
+		float: left;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		padding: 14px 16px;
+		transition: 0.3s;
+		font-size: 17px;
+	}
+
+	/* Change background color of buttons on hover */
+	.tab button:hover {
+		background-color: #ddd;
+	}
+
+	/* Create an active/current tablink class */
+	.tab button.active {
+		background-color: #ccc;
+	}
+
+	/* Style the tab content */
+	.tabcontent {
+		display: none;
+		padding: 6px 12px;
+		border: 1px solid #ccc;
+		border-top: none;
+	}
+	
+	* {
+		box-sizing: border-box;
+		}
+
+		#myInput {
+		background-image: url('/css/searchicon.png');
+		background-position: 10px 10px;
+		background-repeat: no-repeat;
+		width: 100%;
+		font-size: 16px;
+		padding: 12px 20px 12px 40px;
+		border: 1px solid #ddd;
+		margin-bottom: 12px;
+		}
+
+		#myTable {
+		border-collapse: collapse;
+		width: 100%;
+		border: 1px solid #ddd;
+		font-size: 18px;
+		}
+
+		#myTable th, #myTable td {
+		text-align: left;
+		padding: 12px;
+		}
+
+		#myTable tr {
+		border-bottom: 1px solid #ddd;
+		}
+
+		#myTable tr.header, #myTable tr:hover {
+		background-color: #f1f1f1;
+		}
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+		<li class="active"><a href="/home">Guest Home</a></li>
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group input-group">
+          <input type="text" class="form-control" placeholder="Search..">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>        
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+        <li><a href="/register"><span class="glyphicon glyphicon-log-in"></span> Register</a></li>
+		</ul>
+    </div>
+  </div>
+</nav>
+  
+  
+<div class="container text-center">    
+  <div class="row">
+    <div class="col-sm-3 well">
+   
+		<div class="well">
+	  
+			{% if toptags %}
+			  <span class="label label-primary">Most Popular Tags</a></span>
+			  <span class="label label-primary">Click Tag For All Photos With That Tag</a></span>
+			  <hr>
+				{% for tag in toptags %}
+			
+			<p><a href='/profile/alluserstag/{{ tag[0]}} /'>{{ tag[0]}} </a></p>
+				{% endfor %}
+
+				
+			{% endif %}
+      </div>
+
+    
+    </div>
+    <div class="col-sm-7">
+    
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default text-left">
+            <div class="panel-body">  
+
+      			
+            </div>
+          </div>
+        </div>
+      </div>
+      
+	  
+	  
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="well">
+		  
+		    {% if photo_tag%}
+	  
+	  
+	  <ul>
+		{% for photo in photo_tag %}
+		<div class="media">
+			<div class="media-left" "media-bottom">
+				<img src='data:image/png;base64, {{photo[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+			</div>
+			<div class="media-body" "media-bottom" style>
+				<div class="article-metadata">
+					<a class="mr-2" href=#>{{photo[0]}}</a>
+					<small class="text-muted">{{ photo[8].strftime('%Y-%m-%d') }}</small>
+				</div>
+			</div>
+				<li><img src='data:image/png;base64, {{photo[2]}}' style="width:300px; height:300px;"/><br>
+				<strong>{{photo[0]}}</strong> <i>{{photo[7]}}</i></li>
+				{% if not comments %}
+				<li><a href="/home/{{photo[6]}}/">View All Comments</a></li>
+				{% endif %}
+				
+				{% if comments %}
+					<ul>
+					{% for comment in comments %}
+											<div class = "media">
+							<div class="media-left" "media-bottom">
+								<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+								<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+								<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+								<div><p class="article-content">{{ comment[2] }}</p></div>
+							</div>
+						</div>
+						{%endfor%}
+						</ul>
+				{% endif %}
+				<form action="/home/" method="POST">
+					<textarea name="comment" style="width:300px; height:20px;"></textarea>
+					<br>
+					<input type="submit" value="Add Comment">
+					<input type="hidden" value='{{photo[3]}}' name='photo_id	'
+				</form>
+			</div>
+			{% endfor %}
+			</ul>
+			{% endif %}
+	</div>
+
+	  <div>
+			
+			{% if photos %}
+		
+		{% for photo in photos %}
+		<div class="media">
+			<div class="media-left" "media-bottom">
+				<img src='data:image/png;base64, {{photo[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+			</div>
+			<div class="media-body" "media-bottom" style>
+				<div class="article-metadata">
+					<a class="mr-2" href=#>{{photo[0]}}</a>
+					<small class="text-muted">{{ photo[8].strftime('%Y-%m-%d') }}</small>
+				</div>
+			</div>
+				<li><img src='data:image/png;base64, {{photo[2]}}' style="width:300px; height:300px;"/><br>
+				<strong>{{photo[0]}}</strong> <i>{{photo[7]}}</i></li>
+				{% if not comments %}
+				<li><a href="/home/{{photo[6]}}/">View All Comments</a></li>
+				{% endif %}
+				
+				{% if comments %}
+					<ul>
+					{% for comment in comments %}
+											<div class = "media">
+							<div class="media-left" "media-bottom">
+								<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+								<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+								<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+								<div><p class="article-content">{{ comment[2] }}</p></div>
+							</div>
+						</div>
+						{%endfor%}
+						</ul>
+				{% endif %}
+				<form action="/home/" method="POST">
+					<textarea name="comment" style="width:300px; height:20px;"></textarea>
+					<br>
+					<input type="submit" value="Add Comment">
+					<input type="hidden" value='{{photo[3]}}' name='photo_id	'
+				</form>
+			</div>
+		{% endfor %}
+	
+	{% endif %}
+
+<hr>
+<hr>	
+	</div>
+	</div>
+	</div>
+	</div>
+
+	
+
+	
+		<div style="float:right;" class="col-sm-2 well">
+			  
+		</div>
+	
+	
+	</div>
+
+	<footer class="container-fluid text-center">
+		<p>Guest Page</p>
+	</footer>
+
+
+</body>
+</html>

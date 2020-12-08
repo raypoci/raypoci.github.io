@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Photoshare Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+	body {font-family: Arial;}
+
+	/* Style the tab */
+	.tab {
+		overflow: hidden;
+		border: 1px solid #ccc;
+		background-color: #f1f1f1;
+	}
+
+	/* Style the buttons inside the tab */
+	.tab button {
+		background-color: inherit;
+		float: left;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		padding: 14px 16px;
+		transition: 0.3s;
+		font-size: 17px;
+	}
+
+	/* Change background color of buttons on hover */
+	.tab button:hover {
+		background-color: #ddd;
+	}
+
+	/* Create an active/current tablink class */
+	.tab button.active {
+		background-color: #ccc;
+	}
+
+	/* Style the tab content */
+	.tabcontent {
+		display: none;
+		padding: 6px 12px;
+		border: 1px solid #ccc;
+		border-top: none;
+	}
+	
+	* {
+		box-sizing: border-box;
+		}
+
+		#myInput {
+		background-image: url('/css/searchicon.png');
+		background-position: 10px 10px;
+		background-repeat: no-repeat;
+		width: 100%;
+		font-size: 16px;
+		padding: 12px 20px 12px 40px;
+		border: 1px solid #ddd;
+		margin-bottom: 12px;
+		}
+
+		#myTable {
+		border-collapse: collapse;
+		width: 100%;
+		border: 1px solid #ddd;
+		font-size: 18px;
+		}
+
+		#myTable th, #myTable td {
+		text-align: left;
+		padding: 12px;
+		}
+
+		#myTable tr {
+		border-bottom: 1px solid #ddd;
+		}
+
+		#myTable tr.header, #myTable tr:hover {
+		background-color: #f1f1f1;
+		}
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/upload"><span class="glyphicon glyphicon-camera"></span>Upload Photo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+		<li><a href="/profile/home">Home</a></li>
+		<li class="active"><a href="/profile">Profile</a></li>
+		<li><a href="/profile/friends">Friends</a></li>
+      </ul>
+	  			
+      <form class="navbar-form navbar-right" action="/profile/search" method="POST">
+        <div class="form-group input-group">
+          <input type="text" class="form-control" placeholder="Search.." name="search">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>        
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+  
+<div class="container text-center">    
+  <div class="row">
+    <div class="col-sm-3 well">
+      <div class="well">
+		<button class="open-button" onclick="openForm5()">Change Profile Picture</button>
+
+		<div class="form-popup" id="myForm5" style="display:none;">
+		 <form method="post" enctype="multipart/form-data" action="/profile/upload">
+			
+            <input type="file" name="pro_pic" /><br />
+			 <button type="submit" class="btn" style="background-color:black; color:white;">Upload</button>
+			<button type="button" class="btn cancel" onclick="closeForm5()" style="background-color:black; color:white;">Close</button>
+		</form>
+	  </div>
+		
+		
+		{% if profile_pic %}
+        
+		<img src="data:image/png;base64, {{profile_pic[0][2]}} " class="img-circle" height="65" width="65" alt="Avatar">
+		
+		{% endif %}
+		<text> <strong> {{current_user.id}}</strong> </text>
+      </div>
+	
+	<div class="well">
+	  
+			{% if toptags %}
+			  <span class="label label-primary">Most Popular Tags</a></span>
+			  <span class="label label-primary">Click Tag For All Photos With That Tag</a></span>
+			  <hr>
+				{% for tag in toptags %}
+			
+			<p><a href='/profile/alluserstag/{{ tag[0]}} /'>{{ tag[0]}} </a></p>
+				{% endfor %}
+
+				
+			{% endif %}
+      </div>
+   
+    </div>
+    <div class="col-sm-7">
+    
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default text-left">
+            <div class="panel-body">
+			<button class="open-button" onclick="openForm()">Create New Album</button>
+
+						<div class="form-popup" id="myForm" style="display:none;">
+						  <form action="/profile/home/createalbum/" class="form-container" method='post'>
+						  <label for="album">Name Album:</label>
+							<input type="text" placeholder="Enter Album Name" name="newalbum" required>
+							<button type="submit" class="btn" value="Create Album">Create Album</button>
+							<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+						  </form>
+						  </div>
+						  
+						  						 <button class="open-button" onclick="openForm2()">Type Tags For Recommended Photos</button>
+
+						<div class="form-popup" id="myForm2" style="display:none;">
+						  <form action="/profile/home/recommendations/" class="form-container" method='post'>
+						  <label for="newtag">Add tags:</label>
+							<input type="text" placeholder="Enter Tags Here" name="newtag" required>
+							<button type="submit" class="btn" value="Search">Search</button>
+							<button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
+						  </form>
+						  </div> 
+						  
+			  </div>
+          </div>
+        </div>
+      </div>
+      
+	  
+	  
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="well">
+	
+		  <h2>Photoshare Profile Page</h2>
+			<h6>Explore Your Albums, Photos, and Tags</h6>
+			<div class="tab">
+				<button class="tablinks" onclick="openTab(event, 'myphotos')">Browse Your Photos</button>
+				<button class="tablinks" onclick="openTab(event, 'myalbums')">Search Your Albums </button>
+				<button class="tablinks" onclick="openTab(event, 'mytags')">Browse Your Tags </button>
+			</div>
+				
+</div>
+
+			{% if photos %}
+			<div  id = "myphotos"class = "tabcontent">
+				<div class= "well">
+				{% for photo in photos %}		
+					<div style="float: center;"class="media" >
+						<div class="media-left" "media-bottom">
+							<img src='data:image/png;base64, {{photo[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+							<a class="mr-2" href=#>{{photo[0]}}</a>
+							<small class="text-muted">{{ photo[8].strftime('%Y-%m-%d') }}</small>
+						</div>
+					</div>
+
+					<div>
+						<img src='data:image/png;base64, {{photo[5]}}' style="width:300px; height:300px;"/><br>
+						<strong>{{photo[0]}}</strong> <i>{{photo[7]}}</i>
+					</div>
+					
+					<div>
+
+						<a href="/profile/{{photo[6]}}/likedby"><span class="glyphicon glyphicon-thumbs-up"></span> {{photo[9]}} Likes</a>&nbsp;&nbsp;&nbsp;
+						<a href="/profile/home/{{photo[6]}}/addtag/"><span class="glyphicon glyphicon-tag"></span> Tag Photo</a>&nbsp;&nbsp;&nbsp;
+						<a href="/profile/{{ photo[6] }}/removetag"><span class="glyphicon glyphicon-trash"></span>Remove Tag</a>&nbsp;&nbsp;&nbsp;
+						<a href= "/profile/{{photo[6]}}/editcaption"><span class="glyphicon glyphicon-pencil"></span>Edit Caption</a>
+					</div>	
+						{%if not comments%}
+						<div ><a href="/profile/home/{{photo[6]}}">View All Comments</a></div>
+						{%endif%}
+						<hr>
+					{% if comments %}
+					<ul>
+						{% for comment in comments %}
+						<div class = "media">
+							<div class="media-left" "media-bottom">
+								<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+								<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+								<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+								<div><p class="article-content">{{ comment[2] }}</p></div>
+							</div>
+						</div>
+						{% endfor %}
+					</ul>
+					{% endif %}
+										<hr>
+				{% endfor %}
+				</div>
+			</div>
+			{% endif %} 	
+			
+			{% if mytags%}
+			
+			<div  id = "mytags"class = "tabcontent">
+				<div class= "well">
+				<input type="text" id="myInput3" onkeyup="myFunction3()" placeholder="Search your tags.." title="Type in a word">
+					<table id="myTable3">
+					<tr class="header" >
+						<th style="width:40%;">Tag Words</th>
+						<th style="width:40%;">Click to Remove Tag</th>
+					</tr>
+					{% for photo in album_photos %}	
+					
+					{% if photo[6]==tag[1] %}
+				{% for tag in mytags %}
+					<tr>
+						<td>{{tag[0]}}</td>
+						<td><a href= "/profile/{{tag[1]}}/{{tag[0]}}/remove">Delete</td>
+					</tr>
+					{%endfor%}
+					{% endif %}
+					
+					{% endfor%}
+				</table>	
+						
+				</div>
+			</div>
+			
+			{% endif %}	
+	
+			{% if albums %}	
+		
+	
+			<div  id = "myalbums"class = "tabcontent">
+				<div class= "well">
+				<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search who you are following.." title="Type in an email or name">
+				<table id="myTable">
+					<tr class="header" >
+
+						<th style="width:30%;">Album Name</th>
+						<th style="width:30%;">Browse Album</th>
+						<th style="width:30%;">Add Photo</th>
+						<th style="width:10%;">Delete Album</th>
+					</tr>
+						{% for i in range(albums|length) %}
+						<tr>
+							<td>{{albums[i][0]}}</td>
+							<td>{{albums[i][2]}} &nbsp; &nbsp; <span><a href="/profile/{{albums[i][1]}}/photos"><span class="glyphicon glyphicon-camera"></span> </a></td>
+							<td>
+							{{albums[i][2]}} &nbsp; &nbsp; <span><a href="/profile/{{albums[i][1]}}/upload"><span class="glyphicon glyphicon-plus"></span> </a></span>
+							</td>
+							<td>{{albums[i][2]}} &nbsp; &nbsp; <span><a href="/profile/{{albums[i][1]}}/delete"><span class="glyphicon glyphicon-trash"></span></a></span></td>
+						</tr>
+					
+						{% endfor %}	
+						</table>
+				</div>
+			</div>
+			{% endif %}	
+	
+	
+
+					
+	</div>
+</div>
+</div>
+
+{% if search %}
+				<div class= "well">
+				{% for word in search %}		
+					<div style="float: center;"class="media" >
+						<div class="media-left" "media-bottom">
+							<img src='data:image/png;base64, {{word[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+							<a class="mr-2" href=#>{{word[0]}}</a>
+							<small class="text-muted">{{ word[8].strftime('%Y-%m-%d') }}</small>
+						</div>
+					</div>
+
+					<div>
+						<img src='data:image/png;base64, {{word[5]}}' style="width:300px; height:300px;"/><br>
+						<strong>{{word[0]}}</strong> <i>{{word[7]}}</i>
+					</div>
+					<div>
+						<small class="text"> {{word[9]}} Likes</small>&nbsp; &nbsp;
+						<span><a href="/profile/home/{{word[6]}}/delete"><span class="glyphicon glyphicon-trash" style="color:red;"></span> </a></span>&nbsp;&nbsp;
+						
+						
+						<button class="open-button" onclick="openForm7()"><span class="glyphicon glyphicon-pencil">Edit </span></button>
+		
+						<div class="form-popup" id="myForm7" style="display:none;">
+									
+						<form method="post" enctype="multipart/form-data" action="/profile/{{word[6]}}/editcaption">
+								<label for="caption">Enter new caption:</label>
+								<input type="text" name="caption" required='true' /><br />
+						
+								<button type="submit" class="btn" value="Create Album">Caption it</button>
+								<button type="button" class="btn cancel" onclick="closeForm7()">Close</button>
+				
+							</form>
+						</div>
+
+					</div>
+					{%if not comments%}
+						<div ><a href="/profile/home/{{word[6]}}">View All Comments</a></div>
+					{%endif%}
+					{% if comments %}
+					<ul>
+						{% for comment in comments %}
+						<div class = "media">
+							<div class="media-left" "media-bottom">
+								<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+								<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+								<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+								<div><p class="article-content">{{ comment[2] }}</p></div>
+							</div>
+						</div>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					<hr>
+				{% endfor %}
+				</div>
+			{% endif %}
+			
+			{% if album_photos %}
+			
+				<div class= "well">
+				{% for picture in album_photos %}		
+				
+					<div style="float: center;"class="media" >
+						<div class="media-left" "media-bottom">
+							<img src='data:image/png;base64, {{picture[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+							<a class="mr-2" href=#>{{picture[0]}}</a>
+							<small class="text-muted">{{ picture[8].strftime('%Y-%m-%d') }}</small>
+						</div>
+					</div>
+
+					<div>
+						<img src='data:image/png;base64, {{picture[5]}}' style="width:300px; height:300px;"/><br>
+						<strong>{{picture[0]}}</strong> <i>{{picture[7]}}</i>
+					</div>
+					<div>
+
+						<a href="/profile/{{picture[6]}}/likedby"><span class="glyphicon glyphicon-thumbs-up"></span> Click to view all {{picture[9]}} Likers </a>&nbsp;&nbsp;&nbsp;
+						<a href="/profile/home/{{picture[6]}}/addtag/"><span class="glyphicon glyphicon-tag"></span> Tag Photo</a>&nbsp;&nbsp;&nbsp;
+						<a href="/profile/{{ picture[6] }}/removetag"><span class="glyphicon glyphicon-trash"></span>Remove Tag</a>&nbsp;&nbsp;&nbsp;
+						<a href= "/profile/{{picture[6]}}/editcaption"><span class="glyphicon glyphicon-pencil"></span>Edit Caption</a>
+					</div>	
+						{%if not comments%}
+						<div ><a href="/profile/home/{{picture[6]}}">View All Comments</a></div>
+						{%endif%}
+						{%if likes%}
+						<h4><b>Liked By</b></h4>
+							{% for thumbsup in likes %}
+								{% if picture[6]==thumbsup[2] %}
+							
+								<div><a href='/profile/{{picture[6]}}/likedby'><b><i>{{thumbsup[0]}}</i></b></a></div>
+								{% endif %}
+							{% endfor %}
+					{%endif%}
+						
+					
+					{% if comments %}
+					<ul>
+						{% for comment in comments %}
+						<div class = "media">
+							<div class="media-left" "media-bottom">
+								<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+								<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+								<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+								<div><p class="article-content">{{ comment[2] }}</p></div>
+							</div>
+						</div>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					<hr>
+				{% endfor %}
+				</div>
+	
+			{% endif %}
+			{%if upload%}
+			
+			  <h1>Upload a photo to Photoshare</h1>
+       
+            <form method="post" enctype="multipart/form-data" action="/upload">
+				<input type="hidden" value='{{upload}}' name='album'>	
+                <label for="photo">Select photo:</label>
+                <input type="file" name="photo" required='true' /><br />
+                <label for="caption">Please caption:</label>
+                <input type="text" name="caption" required='true' /><br />
+                <input type="submit" value="Upload" />
+            </form>
+         
+			{%endif%}
+						
+						{% if tag_upload %}
+						<form method="post" enctype="multipart/form-data" action="/profile/home/addtag/" method="POST">
+						<textarea placeholder="Add one or more tag words.." name="tag" style="width:300px; height:40px;" required></textarea>
+						<input name= 'photo_id' type="hidden" value="{{ tag_upload }}" >
+						<input type="submit" class="btn" value="Add tag">Submit</button>
+						
+						</form>
+						
+						{%endif%}
+						
+						{% if tag_remove %}
+						<form method="post" enctype="multipart/form-data" action="/profile/home/addtag/" method="POST">
+						<textarea placeholder="Add one or more tag words.." name="tag" style="width:300px; height:40px;" required></textarea>
+						<input name= 'photo_id' type="hidden" value="{{ tag_remove }}" >
+						<input type="submit" class="btn" value="Add tag">Submit</button>
+						
+						</form>
+						
+						{%endif%}
+						
+						{% if edit_caption  %}
+							<form method="post" enctype="multipart/form-data" action="/profile/editcaption">
+								<label for="caption">Edit caption:</label>
+								<textarea placeholder="Add a new caption.." name="caption" style="width:300px; height:40px;" required></textarea>
+								<input name= 'photo_id' type="hidden" value="{{ edit_caption }}" >
+								<input type="submit" class="btn" value="Add tag">Submit</button>
+				
+						</form>
+						
+						{%endif%}
+						
+			
+
+						
+</div>
+     
+	
+		<div style="float:right;" class="col-sm-2 well">
+			  <div class="thumbnail">
+				<p>Welcome</p>
+			
+			  </div>      
+			  
+			</div>
+		</div>
+
+	
+	
+
+<footer class="container-fluid text-center">
+  <p>Profile</p>
+</footer>
+
+
+
+			<script>
+			function myFunction() {
+			  var input, filter, table, tr, td, i;
+			  input = document.getElementById("myInput");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("myTable");
+			  tr = table.getElementsByTagName("tr");
+			  for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+				  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				  } else {
+					tr[i].style.display = "none";
+				  }
+				}       
+			  }
+			}
+
+			</script>
+			
+			<script>
+			function openTab(evt, tabName) {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+				}
+				document.getElementById(tabName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+			</script>
+			
+			<script>
+			function myFunction3() {
+			  var input, filter, table, tr, td, i;
+			  input = document.getElementById("myInput3");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("myTable3");
+			  tr = table.getElementsByTagName("tr");
+			  for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+				  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				  } else {
+					tr[i].style.display = "none";
+				  }
+				}       
+			  }
+			}
+			</script>
+			
+			<script>
+			function myFunction2() {
+			  var input, filter, table, tr, td, i;
+			  input = document.getElementById("myInput2");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("myTable2");
+			  tr = table.getElementsByTagName("tr");
+			  for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+				  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				  } else {
+					tr[i].style.display = "none";
+				  }
+				}       
+			  }
+			}
+			</script>
+			
+
+			
+			<script>
+			function openForm() {
+				document.getElementById("myForm").style.display = "block";
+			}
+
+			function closeForm() {
+				document.getElementById("myForm").style.display = "none";
+			}
+			</script>
+			<script>
+			function openForm2() {
+				document.getElementById("myForm2").style.display = "block";
+			}
+
+			function closeForm2() {
+				document.getElementById("myForm2").style.display = "none";
+			}
+			</script>
+			<script>
+			function openForm3() {
+				document.getElementById("myForm3").style.display = "block";
+			}
+
+			function closeForm3() {
+				document.getElementById('myForm3').style.display = "none";
+			}
+			</script>
+	
+						<script>
+			function openForm5() {
+				document.getElementById("myForm5").style.display = "block";
+			}
+
+			function closeForm5() {
+				document.getElementById("myForm5").style.display = "none";
+			}
+			</script>
+
+			<script>
+		
+		
+			
+			</script>
+</body>
+</html>

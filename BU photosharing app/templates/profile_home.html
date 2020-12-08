@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Photoshare Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+	body {font-family: Arial;}
+
+	/* Style the tab */
+	.tab {
+		overflow: hidden;
+		border: 1px solid #ccc;
+		background-color: #f1f1f1;
+	}
+
+	/* Style the buttons inside the tab */
+	.tab button {
+		background-color: inherit;
+		float: left;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		padding: 14px 16px;
+		transition: 0.3s;
+		font-size: 17px;
+	}
+
+	/* Change background color of buttons on hover */
+	.tab button:hover {
+		background-color: #ddd;
+	}
+
+	/* Create an active/current tablink class */
+	.tab button.active {
+		background-color: #ccc;
+	}
+
+	/* Style the tab content */
+	.tabcontent {
+		display: none;
+		padding: 6px 12px;
+		border: 1px solid #ccc;
+		border-top: none;
+	}
+	
+	* {
+		box-sizing: border-box;
+		}
+
+		#myInput {
+		background-image: url('/css/searchicon.png');
+		background-position: 10px 10px;
+		background-repeat: no-repeat;
+		width: 100%;
+		font-size: 16px;
+		padding: 12px 20px 12px 40px;
+		border: 1px solid #ddd;
+		margin-bottom: 12px;
+		}
+
+		#myTable {
+		border-collapse: collapse;
+		width: 100%;
+		border: 1px solid #ddd;
+		font-size: 18px;
+		}
+
+		#myTable th, #myTable td {
+		text-align: left;
+		padding: 12px;
+		}
+
+		#myTable tr {
+		border-bottom: 1px solid #ddd;
+		}
+
+		#myTable tr.header, #myTable tr:hover {
+		background-color: #f1f1f1;
+		}
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/upload"><span class="glyphicon glyphicon-camera"></span>Upload Photo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+		<li class="active"><a href="/profile/home">Home</a></li>
+		<li><a href="/profile">Profile</a></li>
+		<li><a href="/profile/friends">Friends</a></li>
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group input-group">
+          <input type="text" class="form-control" placeholder="Search..">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>        
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+  
+<div class="container text-center">    
+  <div class="row">
+    <div class="col-sm-3 well">
+      <div class="well">
+		 <form method="post" enctype="multipart/form-data" action="/profile/upload">
+			<label for="pro_pic">Change Profile Picture:</label>
+            <input type="file" name="pro_pic" /><br />
+			<input type="submit" value="Upload" />
+		</form>
+		
+		{% if photos %}
+        
+		<img src="data:image/png;base64, {{photos[0][2]}} " class="img-circle" height="65" width="65" alt="Avatar">
+		
+		{% endif %}
+		<text> <strong> {{current_user.id}}</strong> </text>
+      </div>
+	
+	<div class="well">
+	  
+			{% if toptags %}
+			  <span class="label label-primary">Most Popular Tags</a></span>
+			  <span class="label label-primary">Click Tag For All Photos With That Tag</a></span>
+			  <hr>
+				{% for tag in toptags %}
+			
+			<p><a href='/profile/alluserstag/{{ tag}} /'>{{ tag[0]}} </a></p>
+				{% endfor %}
+
+				
+			{% endif %}
+      </div>
+   
+      
+    </div>
+    <div class="col-sm-7">
+    
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default text-left">
+            <div class="panel-body">
+           
+               
+            </div>
+          </div>
+        </div>
+      </div>
+      
+	  
+	  
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="well">
+			<h2>Welcome to Home Page</h2>
+			
+			<div class="tab">
+				<button class="tablinks" onclick="openTab(event, 'myphotos')">Browse Site Photos</button>
+				<button class="tablinks" onclick="openTab(event, 'alltags')">View All Photos By Tag </button>
+				<button class="tablinks" onclick="openTab(event, 'recommendation')">Photos You May Also Like </button>
+
+			</div>
+		 </div>
+		 
+			{% if photos %}
+			<div  id = "myphotos"class = "tabcontent">
+				<div class= "well">
+				{% for photo in photos %}		
+					<div style="float: center;"class="media" >
+						<div class="media-left" "media-bottom">
+							<img src='data:image/png;base64, {{photo[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+							<a class="mr-2" href=#>{{photo[0]}}</a>
+							<small class="text-muted">{{ photo[8].strftime('%Y-%m-%d') }}</small>
+						</div>
+					</div>
+
+					<div>
+						<img src='data:image/png;base64, {{photo[5]}}' style="width:300px; height:300px;"/><br>
+						<strong>{{photo[0]}}</strong> <i>{{photo[7]}}</i>
+					</div>
+					<div>
+						<span><a href="/profile/home/{{ photo[6] }}/likes"><span class="glyphicon glyphicon-thumbs-up"></span> {{photo[9]}} Likes</a>	</span>
+						<span><a href="/profile/home/{{ photo[1] }}/addfriend"><span class="glyphicon glyphicon-user"></span> Add Friend</a></span>
+						<span><a href="/profile/home/{{ photo[1] }}/removefriend"><span class="glyphicon glyphicon-user"></span> Remove Friend</a></span>
+						<a href="/profile/home/{{photo[6]}}/likedby"><span class="glyphicon glyphicon-thumbs-up"></span> View Likers</a>&nbsp;&nbsp;&nbsp;
+					</div>
+						<div ><a href="/profile/home/{{photo[6]}}">View All Comments</a></div>
+					
+					<div>
+					{% if comments %}
+					<ul>
+						{% for comment in comments %}
+						<div class = "media">
+							<div class="media-left" "media-bottom">
+								<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+								<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+								<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+								<div><p class="article-content">{{ comment[2] }}</p></div>
+							</div>
+						</div>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					<form action="{{ url_for('profile_home') }}"method="POST">
+					<textarea placeholder="Leave a Comment.." name="comment" style="width:300px; height:40px;"></textarea>
+					<br>
+					<br>
+					<input name= 'comment_photo_id' type="hidden" value="{{ photo[6] }}" >
+					<input type= 'submit' value="Add Comment">
+					</form>
+					<hr>
+				{% endfor %}
+				{% endif %} 	
+				</div>
+				</div>
+			</div>
+			
+			{% if alltags %}	
+			<div  id = "alltags" class = "tabcontent">
+				<div class= "well">
+					<input type="text" id="myInput3" onkeyup="myFunction3()" placeholder="Search for all tags.." title="Type in a tag">
+					<table id="myTable3">
+						<tr class="header" >
+							<th style="width:50%;">Tag Words</th>
+							<th style="width:50%;">Click to Go to Photo</th>
+						</tr>
+						{% for all_tags in alltags %}
+						<tr>
+							<td>{{all_tags[0]}}</td>
+							<td><a href='/profile/alluserstag/{{ all_tags[0]}} /'>{{all_tags[1]}}</a></td>
+						</tr>
+						{% endfor %}
+					</table>	
+				</div>
+			</div>
+			{% endif %}
+			
+			{% if photo_recommendation %}
+			<div  id = "recommendation"class = "tabcontent">
+				<div class= "well">
+				{% for photo in photo_recommendation %}		
+					<div style="float: center;"class="media" >
+						<div class="media-left" "media-bottom">
+							<img src='data:image/png;base64, {{photo[2]}}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+							<a class="mr-2" href=#>{{photo[0]}}</a>
+							<small class="text-muted">{{ photo[8].strftime('%Y-%m-%d') }}</small>
+						</div>
+					</div>
+
+					<div>
+						<img src='data:image/png;base64, {{photo[5]}}' style="width:300px; height:300px;"/><br>
+						<strong>{{photo[0]}}</strong> <i>{{photo[7]}}</i>
+					</div>
+					<div>
+						<small class="text"> {{photo[9]}} Likes</small>
+					</div>
+						<span><a href="/profile/home/{{ photo[6] }}/likes"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a>	</span>
+					
+						<span><div id="addfriend" <a href="/profile/home/{{ photo[1] }}/addfriend"><span class="glyphicon glyphicon-user"></span> Add Friend</a></div></span>
+						<span><div id="removefriend" style=" display:none; "<a href="/profile/home/{{ photo[1] }}/removefriend"><span class="glyphicon glyphicon-user"></span> Remove Friend</a></div></span>
+						
+						<div ><a href="/profile/home/{{photo[6]}}">View All Comments</a></div>
+					
+					{% if comments %}
+					<ul>
+						{% for comment in comments %}
+						<div class = "media">
+							<div class="media-left" "media-bottom">
+								<img src='data:image/png;base64, {{ comment[1] }}' alt="Avatar" class="avatar" style="vertical-align:middle; width:40px; height:40px; border-radius:40%"/>
+								<text class="mr-2"> <strong> {{comment[0]}} </strong> </text>
+								<small class="text-muted">{{ comment[3].strftime('%Y-%m-%d') }}</small>
+								<div><p class="article-content">{{ comment[2] }}</p></div>
+							</div>
+						</div>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					<form action="{{ url_for('profile_home') }}"method="POST">
+					<textarea placeholder="Leave a Comment.." name="comment" style="width:300px; height:40px;"></textarea>
+					<br>
+					<br>
+					<input name= 'comment_photo_id' type="hidden" value="{{ photo[6] }}" >
+					<input type= 'submit' value="Add Comment">
+					</form>
+					<hr>
+				{% endfor %}
+				</div>
+			</div>
+			{% endif %} 	
+	</div>
+	</div>
+	</div>
+
+	</div>
+
+	
+		<div style="float:right;" class="col-sm-2 well">
+			  <div class="thumbnail">
+				<p>Welcome</p>
+	
+			  </div>      
+			  
+		</div>
+	
+	
+	</div>
+
+	<footer class="container-fluid text-center">
+		<p>Home Page</p>
+	</footer>
+
+			<script>
+			function myFunction() {
+			  var input, filter, table, tr, td, i;
+			  input = document.getElementById("myInput");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("myTable");
+			  tr = table.getElementsByTagName("tr");
+			  for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+				  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				  } else {
+					tr[i].style.display = "none";
+				  }
+				}       
+			  }
+			}
+			</script>
+			<script>
+			function myFunction3() {
+			  var input, filter, table, tr, td, i;
+			  input = document.getElementById("myInput3");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("myTable3");
+			  tr = table.getElementsByTagName("tr");
+			  for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+				  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				  } else {
+					tr[i].style.display = "none";
+				  }
+				}       
+			  }
+			}
+			</script>
+			
+			<script>
+			function openTab(evt, tabName) {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+				}
+				document.getElementById(tabName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+			</script>
+			
+
+</body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Photoshare Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+	body {font-family: Arial;}
+
+	/* Style the tab */
+	.tab {
+		overflow: hidden;
+		border: 1px solid #ccc;
+		background-color: #f1f1f1;
+	}
+
+	/* Style the buttons inside the tab */
+	.tab button {
+		background-color: inherit;
+		float: left;
+		border: none;
+		outline: none;
+		cursor: pointer;
+		padding: 14px 16px;
+		transition: 0.3s;
+		font-size: 17px;
+	}
+
+	/* Change background color of buttons on hover */
+	.tab button:hover {
+		background-color: #ddd;
+	}
+
+	/* Create an active/current tablink class */
+	.tab button.active {
+		background-color: #ccc;
+	}
+
+	/* Style the tab content */
+	.tabcontent {
+		display: none;
+		padding: 6px 12px;
+		border: 1px solid #ccc;
+		border-top: none;
+	}
+	
+	* {
+		box-sizing: border-box;
+		}
+
+		#myInput {
+		background-image: url('/css/searchicon.png');
+		background-position: 10px 10px;
+		background-repeat: no-repeat;
+		width: 100%;
+		font-size: 16px;
+		padding: 12px 20px 12px 40px;
+		border: 1px solid #ddd;
+		margin-bottom: 12px;
+		}
+
+		#myTable {
+		border-collapse: collapse;
+		width: 100%;
+		border: 1px solid #ddd;
+		font-size: 18px;
+		}
+
+		#myTable th, #myTable td {
+		text-align: left;
+		padding: 12px;
+		}
+
+		#myTable tr {
+		border-bottom: 1px solid #ddd;
+		}
+
+		#myTable tr.header, #myTable tr:hover {
+		background-color: #f1f1f1;
+		}
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/upload"><span class="glyphicon glyphicon-camera"></span>Upload Photo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+		<li><a href="/profile/home">Home</a></li>
+		<li><a href="/profile">Profile</a></li>
+		<li class="active"><a href="/profile/friends">Friends</a></li>
+      </ul>
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group input-group">
+          <input type="text" class="form-control" placeholder="Search..">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>        
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+  
+<div class="container text-center">    
+  <div class="row">
+    <div class="col-sm-3 well">
+      <div class="well">
+		 <button class="open-button" onclick="openForm5()">Change Profile Picture</button>
+
+		<div class="form-popup" id="myForm5" style="display:none;">
+		 <form method="post" enctype="multipart/form-data" action="/profile/upload">
+			
+            <input type="file" name="pro_pic" /><br />
+			 <button type="submit" class="btn" style="background-color:black; color:white;">Upload</button>
+			<button type="button" class="btn cancel" onclick="closeForm5()" style="background-color:black; color:white;">Close</button>
+		</form>
+	  </div>
+		{% if profile_pic %}
+        
+		<img src="data:image/png;base64, {{profile_pic[0][2]}} " class="img-circle" height="65" width="65" alt="Avatar">
+		
+		{% endif %}
+		<text> <strong> {{current_user.id}}</strong> </text>
+      </div>
+	
+	<div class="well">
+	  
+			{% if toptags %}
+			  <span class="label label-primary">Most Popular Tags</a></span>
+			  <span class="label label-primary">Click Tag For All Photos With That Tag</a></span>
+			  <hr>
+				{% for tag in toptags %}
+			
+			<p><a href='/profile/alluserstag/{{ tag[0]}} /'>{{ tag[0]}} </a></p>
+				{% endfor %}
+
+				
+			{% endif %}
+      </div>
+      
+    </div>
+    <div class="col-sm-7">
+    
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="panel panel-default text-left">
+            <div class="panel-body">
+   			<button class="open-button" onclick="openForm()">Create New Album</button>
+
+						<div class="form-popup" id="myForm" style="display:none;">
+						  <form action="/profile/home/createalbum/" class="form-container" method='post'>
+						  <label for="album">Name Album:</label>
+							<input type="text" placeholder="Enter Album Name" name="newalbum" required>
+							<button type="submit" class="btn" value="Create Album">Create Album</button>
+							<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+						  </form>
+						  </div>  
+						  
+						 <button class="open-button" onclick="openForm2()">Type Tags For Recommended Photos</button>
+
+						<div class="form-popup" id="myForm2" style="display:none;">
+						  <form action="/profile/home/recommendations/" class="form-container" method='post'>
+						  <label for="newtag">Add tags:</label>
+							<input type="text" placeholder="Enter Tags Here" name="newtag" required>
+							<button type="submit" class="btn" value="Search">Search</button>
+							<button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
+						  </form>
+						  </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+      
+	  
+	  
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="well">
+		  		  <h2>Photoshare Profile Page</h2>
+			<h6>Explore Your Albums, Photos, and Tags</h6>
+			<div class="tab">
+				<button class="tablinks" onclick="openTab(event, 'following')">You're following</button>
+				<button class="tablinks" onclick="openTab(event, 'followers')">You're followers</button>
+				<button class="tablinks" onclick="openTab(event, 'notfriends')">All Users You're Not Friends With </button>
+				<button class="tablinks" onclick="openTab(event, 'topusers')">View Top Users</button>
+			</div>
+			{% if user_friends %}
+			<div  id = "following"class = "tabcontent">
+				<input type="text" id="myInput" onkeyup="myFunction2()" placeholder="Search who you are following.." title="Type in an email or name">
+				<table id="myTable">
+					<tr class="header" >
+						<th style="width:30%;">Email</th>
+						<th style="width:30%;">First Name</th>
+						<th style="width:30%;">Last Name</th>
+						<th style="width:10%;">Contribution</th>
+					</tr>
+					{% for friend in user_friends %}
+					<tr class='clickable-row' href='/profile/userprofile/{{friend[0]}}'>
+						<td>{{friend[0]}}</td>
+						<td>{{friend[5]}}</td>
+						<td>{{friend[6]}}</td>
+						<td>{{friend[2]}} &nbsp; &nbsp; <span><a href="/profile/home/{{friend[1]}}/removefriend"><span class="glyphicon glyphicon-trash" style="color:red;"></span> </a></span></td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+			{% endif %}  
+			
+			{% if followers %}
+			<div  id = "followers"class = "tabcontent">
+				<input type="text" id="myInput" onkeyup="myFunction2()" placeholder="Search your followers.." title="Type in an email or name">
+				<table id="myTable">
+					<tr class="header" >
+
+						<th style="width:30%;">Email</th>
+						<th style="width:30%;">First Name</th>
+						<th style="width:30%;">Last Name</th>
+						<th style="width:10%;">Contribution</th>
+					</tr>
+					{% for follower in followers %}
+					<tr>
+						<td>{{follower[0]}}</td>
+						<td>{{follower[5]}}</td>
+						<td>{{follower[6]}}</td>
+						<td>{{follower[2]}} </td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+			{% endif %} 
+	
+			{% if notfriends %}	
+			<div  id = "notfriends"class = "tabcontent">
+				<input type="text" id="myInput" onkeyup="myFunction2()" placeholder="Search for other users.." title="Type in an email">
+				<table id="myTable">
+					<tr class="header" >
+						<th style="width:30%;">Email</th>
+						<th style="width:30%;">First Name</th>
+						<th style="width:30%;">Last Name</th>
+						<th style="width:10%;">Contribution</th>
+					</tr>
+					{% for person in notfriends %}
+					<tr class='clickable-row' data-href='/profile/userprofile/{{person[0]}}'>
+						<td>{{person[0]}}</td>
+						<td>{{person[5]}}</td>
+						<td>{{person[6]}}</td>
+						<td>{{person[2]}} &nbsp; &nbsp; <span><a href="/profile/home/{{person[1]}}/addfriend"><span class="glyphicon glyphicon-user"></span> </a></span></td>
+					</tr>	
+					  {% endfor %}
+				</table>
+				</div>
+			
+			{% endif %}   
+	
+	
+		{% if top_users %}	
+		<div  id = "topusers"class = "tabcontent">
+			<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for top user.." title="Type in an email">
+			<table id="myTable">
+				<tr class="header" >
+					<th style="width:30%;">Email</th>
+					<th style="width:30%;">First Name</th>
+					<th style="width:30%;">Last Name</th>
+					<th style="width:10%;">Contribution</th>
+				</tr>
+				{% for topuser in top_users %}
+				<tr class='clickable-row' data-href='/profile/userprofile/{{topuser[0]}}'>
+					<td>{{topuser[0]}}</td>
+					<td>{{topuser[5]}}</td>
+					<td>{{topuser[6]}}</td>
+					<td>{{topuser[2]}}</td>
+				</tr>
+				{% endfor %}
+			</table>	
+		</div>
+		{% endif %}
+	</div>
+</div>
+</div>
+</div>
+     
+	
+		<div style="float:right;" class="col-sm-2 well">
+			  <div class="thumbnail">
+				<p>Welcome</p>
+				
+			  </div>      
+			 
+			</div>
+		</div>
+
+	
+	
+
+<footer class="container-fluid text-center">
+  <p>Friends</p>
+</footer>
+
+			<script>
+			function myFunction2() {
+			  var input, filter, table, tr, td, i;
+			  input = document.getElementById("myInput");
+			  filter = input.value.toUpperCase();
+			  table = document.getElementById("myTable");
+			  tr = table.getElementsByTagName("tr");
+			  for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+				  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				  } else {
+					tr[i].style.display = "none";
+				  }
+				}       
+			  }
+			}
+			</script>
+			
+			<script>
+			function openTab(evt, tabName) {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+				}
+				document.getElementById(tabName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+			</script>
+			<script>
+			function openForm() {
+				document.getElementById("myForm").style.display = "block";
+			}
+
+			function closeForm() {
+				document.getElementById("myForm").style.display = "none";
+			}
+			</script>
+			<script>
+			function openForm2() {
+				document.getElementById("myForm2").style.display = "block";
+			}
+
+			function closeForm2() {
+				document.getElementById("myForm2").style.display = "none";
+			}
+			</script>
+			<script>
+			function openForm3() {
+				document.getElementById("myForm3").style.display = "block";
+			}
+
+			function closeForm3() {
+				document.getElementById('myForm3').style.display = "none";
+			}
+			</script>
+	
+						<script>
+			function openForm5() {
+				document.getElementById("myForm5").style.display = "block";
+			}
+
+			function closeForm5() {
+				document.getElementById("myForm5").style.display = "none";
+			}
+			</script>
+
+</body>
+</html>
