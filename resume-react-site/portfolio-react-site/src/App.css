@@ -1,0 +1,95 @@
+/* Ensure navbar items are centered */
+.wider-navbar {
+  width: 250px; /* Default width */
+  background-color: #2c3e50; /* Dark blue background */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center items vertically */
+}
+
+@media (max-width: 992px) {
+  .wider-navbar {
+    width: 200px; /* Width for medium devices */
+  }
+}
+
+@media (max-width: 768px) {
+  .wider-navbar {
+    width: 150px; /* Width for small devices */
+  }
+}
+
+@media (max-width: 576px) {
+  .wider-navbar {
+    width: 100px; /* Width for extra small devices */
+  }
+}
+
+/* Logo styling */
+.responsive-logo { 
+  max-height: 100px; /* Default value for larger logo */
+  border-radius: 50%; /* Circular headshot */
+} 
+
+@media (min-width: 768px) { 
+  .responsive-logo { 
+    max-height: 120px; /* Adjust for tablets and medium devices */ 
+  } 
+}
+
+@media (min-width: 992px) { 
+  .responsive-logo { 
+    max-height: 140px; /* Adjust for larger devices and desktops */ 
+  } 
+}
+
+@media (min-width: 1200px) { 
+  .responsive-logo { 
+    max-height: 160px; /* Adjust for extra large devices and desktops */ 
+  }
+}
+
+/* Custom styles for active menu items */
+.navbar-nav .nav-item.custom-active .nav-link {
+  background-color: #1abc9c; /* Change background color to teal */
+  color: #fff; /* Change text color */
+  font-weight: bold; /* Make text bold */
+  border-radius: 5px; /* Add rounded corners */
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: #16a085; /* Change background on hover to darker teal */
+  color: #fff; /* Change text color on hover */
+}
+
+/* Ensure navbar items are centered vertically */
+.navbar-collapse {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center items vertically */
+  height: 100%; /* Take up full height */
+}
+
+/* Adjust the margin to match the width of your navbar */
+.content {
+  margin-left: 250px; /* This should match the width of your navbar */
+  padding: 20px; /* Optional: add some padding */
+}
+
+@media (max-width: 992px) {
+  .content {
+    margin-left: 200px; /* Width for medium devices */
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    margin-left: 150px; /* Width for small devices */
+  }
+}
+
+@media (max-width: 576px) {
+  .content {
+    margin-left: 100px; /* Width for extra small devices */
+  }
+}
