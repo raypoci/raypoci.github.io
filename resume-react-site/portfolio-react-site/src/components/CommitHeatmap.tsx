@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import "../App.css"; // Ensure the path is correct
+import "../App.css";
 import { fetchCommits, Commit } from "../utils/FetchCommits";
 
 type HoverValue = { date: string; count?: number } | null;
