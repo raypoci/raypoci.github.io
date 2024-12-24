@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Navbar, NavbarProps } from "./components/Navbar"; // Adjust the path as needed
 import "./App.css"; // Optional: Include any global styles
+import { About } from "./components/About";
 
 const nav_object: NavbarProps[] = [
   {
@@ -27,6 +28,10 @@ const nav_object: NavbarProps[] = [
 
 function App() {
   const [activeSection, setActiveSection] = useState("about");
+  const githubUserName = "raypoci";
+  const linkedinUserName = "ray-poci";
+  const email = "raypoci18@gmail.com";
+  const aboutPhoto = "selfie2.jpg";
 
   return (
     <div className="App">
@@ -34,8 +39,12 @@ function App() {
       <div className="content">
         {activeSection === "about" && (
           <section id="about">
-            <h1>About Me</h1>
-            <p>This is the About section.</p>
+            <About
+              githubUser={githubUserName}
+              linkedinUser={linkedinUserName}
+              email={email}
+              imageSrc={aboutPhoto}
+            />
           </section>
         )}
         {activeSection === "experience" && (
