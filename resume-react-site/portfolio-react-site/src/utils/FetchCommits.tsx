@@ -1,25 +1,23 @@
-interface FetchCommitsProps {
-  repoOwner?: string;
-  repoName?: string;
+import axios from "axios";
+
+export interface Commit {
+  commit: {
+    author: {
+      date: string;
+    };
+  };
 }
 
-export async function fetchCommits({
-  repoOwner = "raypoci",
-  repoName = "raypoci.github.io",
-}: FetchCommitsProps) {
-  const url = `https://api.github.com/repos/${repoOwner}/${repoName}/commits`;
-
+// Fetch commits from GitHub
+export const fetchCommits = async (): Promise<Commit[]> => {
   try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const commits = await response.json();
-    return commits;
+    const response = await axios.get<Commit[]>(
+      "https://api.github.com/repos/raypoci/raypoci.github.io/commits"
+    );
+    console.log("Fetched Data:", response.data); // Debugging log
+    return response.data;
   } catch (error) {
     console.error("Error fetching commits:", error);
     return [];
   }
-}
+};

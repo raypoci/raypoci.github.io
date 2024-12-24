@@ -6,31 +6,9 @@ import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "../App.css"; // Ensure the path is correct
-
-// Define types for commit data
-interface Commit {
-  commit: {
-    author: {
-      date: string;
-    };
-  };
-}
+import { fetchCommits, Commit } from "../utils/FetchCommits";
 
 type HoverValue = { date: string; count?: number } | null;
-
-// Fetch commits from GitHub
-const fetchCommits = async (): Promise<Commit[]> => {
-  try {
-    const response = await axios.get<Commit[]>(
-      "https://api.github.com/repos/raypoci/raypoci.github.io/commits"
-    );
-    console.log("Fetched Data:", response.data); // Debugging log
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching commits:", error);
-    return [];
-  }
-};
 
 const CommitHeatmap: React.FC = () => {
   const [commits, setCommits] = useState<Commit[]>([]);
@@ -67,7 +45,6 @@ const CommitHeatmap: React.FC = () => {
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setMousePos({ x: event.clientX, y: event.clientY });
-      console.log("Mouse Position:", mousePos); // Debugging log
     };
 
     window.addEventListener("mousemove", handleMouseMove);
