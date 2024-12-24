@@ -1,16 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import moment from "moment";
+import { Tooltip } from "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
 import "../App.css";
 import { fetchCommits, Commit } from "../utils/FetchCommits";
 
-type HoverValue = { date: string; count?: number } | null;
+interface HeatmapValue {
+  date: string;
+  count: number;
+}
+
+interface ReactCalendarHeatmapValue<T> {
+  date: T;
+  count?: number;
+}
 
 const CommitHeatmap: React.FC = () => {
   const [commits, setCommits] = useState<Commit[]>([]);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const currentTooltip = useRef<Tooltip | null>(null);
+  const heatmapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,82 +42,89 @@ const CommitHeatmap: React.FC = () => {
   );
 
   // Format data for react-calendar-heatmap
-  const heatmapData = Object.keys(groupedCommits).map((date) => ({
-    date: date,
-    count: groupedCommits[date],
-  }));
+  const heatmapData: HeatmapValue[] = Object.keys(groupedCommits).map(
+    (date) => ({
+      date: date,
+      count: groupedCommits[date],
+    })
+  );
 
   const startDate = moment("2020-08-01").toDate();
 
-  const [hoverValue, setHoverValue] = useState<HoverValue>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const handleMouseOver = (
+    event: React.MouseEvent<SVGRectElement>,
+    value: ReactCalendarHeatmapValue<string> | undefined
+  ) => {
+    if (value && tooltipRef.current && event.currentTarget) {
+      // Get the cell's position
+      const rect = event.currentTarget.getBoundingClientRect();
+      const heatmapRect = heatmapRef.current?.getBoundingClientRect();
 
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      setMousePos({ x: event.clientX, y: event.clientY });
-    };
+      if (heatmapRect) {
+        // Calculate position relative to heatmap container
+        const offsetX = rect.left - heatmapRect.left;
+        const offsetY = rect.top - heatmapRect.top;
 
-    window.addEventListener("mousemove", handleMouseMove);
+        // Position tooltip
+        tooltipRef.current.style.left = `${offsetX + rect.width / 2}px`;
+        tooltipRef.current.style.top = `${offsetY - 5}px`;
+        tooltipRef.current.style.transform = "translate(-50%, -100%)";
 
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [mousePos]);
+        // Dispose of any existing tooltip
+        if (currentTooltip.current) {
+          currentTooltip.current.dispose();
+        }
 
-  useEffect(() => {
-    // Ensure bootstrap is available globally
-    const bootstrap = (window as any).bootstrap;
-    if (bootstrap) {
-      const tooltipTriggerList = [].slice.call(
-        document.querySelectorAll('[data-toggle="tooltip"]')
-      );
-      const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl);
-      });
+        const formattedDate = moment(value.date).format("MMM D, YYYY");
+        tooltipRef.current.setAttribute(
+          "data-bs-title",
+          `${value.count} commit${
+            value.count !== 1 ? "s" : ""
+          } on ${formattedDate}`
+        );
 
-      // Clean up tooltips on unmount
-      return () => {
-        tooltipList.forEach((tooltip) => tooltip.dispose());
-      };
-    } else {
-      console.error("Bootstrap is not available");
+        // Create new tooltip
+        currentTooltip.current = new Tooltip(tooltipRef.current, {
+          placement: "top",
+          trigger: "manual",
+          container: "body",
+        });
+
+        // Show the tooltip
+        currentTooltip.current.show();
+      }
     }
-  }, [hoverValue]);
+  };
+
+  const handleMouseLeave = () => {
+    if (currentTooltip.current) {
+      currentTooltip.current.hide();
+      currentTooltip.current.dispose();
+      currentTooltip.current = null;
+    }
+  };
 
   return (
-    <div className="heatmap-container" style={{ position: "relative" }}>
+    <div className="heatmap-container" ref={heatmapRef}>
+      <div
+        ref={tooltipRef}
+        className="custom-tooltip"
+        data-bs-toggle="tooltip"
+      />
       <CalendarHeatmap
         startDate={startDate}
         endDate={moment().subtract(4, "year").toDate()}
         values={heatmapData}
         classForValue={(value) => {
-          console.log("Value:", value); // Debugging log
           if (!value) {
             return "color-empty";
           }
           return `color-github-${Math.min(4, Math.ceil(value.count / 2))}`;
         }}
         showOutOfRangeDays
-        showWeekdayLabels
-        onMouseOver={(_event, value) => {
-          console.log("Mouse Over Value:", value); // Debugging log
-          setHoverValue(value || null);
-        }}
-        onMouseLeave={() => {
-          console.log("Mouse Leave"); // Debugging log
-          setHoverValue(null);
-        }}
+        onMouseOver={handleMouseOver}
+        onMouseLeave={handleMouseLeave}
       />
-      {hoverValue && (
-        <div
-          className="tooltip"
-          style={{ top: mousePos.y + 10, left: mousePos.x + 10 }}
-          data-toggle="tooltip"
-          title={`${hoverValue.date}: ${hoverValue.count}`}
-        >
-          {/* Placeholder element for the tooltip */}
-        </div>
-      )}
     </div>
   );
 };

@@ -155,6 +155,44 @@ body, html {
 .heatmap-container .color-github-3 { fill: #239a3b; }
 .heatmap-container .color-github-4 { fill: #196127; }
 
+.heatmap-container {
+  position: relative;
+  padding: 20px;
+  overflow: visible;
+}
+
+.custom-tooltip {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1070;
+}
+
+/* Override Bootstrap tooltip styles */
+.tooltip {
+  --bs-tooltip-bg: rgba(0, 0, 0, 0.85);
+  --bs-tooltip-padding-x: 0.75rem;
+  --bs-tooltip-padding-y: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip .tooltip-inner {
+  max-width: 200px;
+  padding: var(--bs-tooltip-padding-y) var(--bs-tooltip-padding-x);
+  text-align: center;
+  border-radius: 6px;
+}
+
+.tooltip .tooltip-arrow {
+  width: 8px;
+  height: 8px;
+}
+
+
 /* Specific styling for the About component */
 .about-container {
   background-color: #2c3e50;
