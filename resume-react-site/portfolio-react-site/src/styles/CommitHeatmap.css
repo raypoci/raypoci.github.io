@@ -1,0 +1,27 @@
+.react-calendar-heatmap .color-empty {
+    fill: #ebedf0;
+  }
+  
+  .react-calendar-heatmap .color-github-1 {
+    fill: #d6e685; /* Slightly darker */
+  }
+  
+  .react-calendar-heatmap .color-github-2 {
+    fill: #8cc665; /* Darker */
+  }
+  
+  .react-calendar-heatmap .color-github-3 {
+    fill: #44a340; /* Even darker */
+  }
+  
+  .react-calendar-heatmap .color-github-4 {
+    fill: #1e6823; /* Darkest */
+  }
+  
+  .react-calendar-heatmap text {
+    font-size: 12px;
+  }
+  
+  .react-calendar-heatmap .react-calendar-heatmap-weekday-labels tspan {
+    font-size: 10px;
+  }

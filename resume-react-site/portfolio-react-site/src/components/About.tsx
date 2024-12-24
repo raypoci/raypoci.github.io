@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import CommitHeatmap from "./CommitHeatmap";
 
 interface AboutProps {
   githubUser: string;
@@ -9,7 +10,12 @@ interface AboutProps {
   imageSrc: string;
 }
 
-export const About = ({ githubUser, linkedinUser, email, imageSrc }: AboutProps) => {
+export const About = ({
+  githubUser,
+  linkedinUser,
+  email,
+  imageSrc,
+}: AboutProps) => {
   return (
     <>
       <div className="container">
@@ -17,7 +23,7 @@ export const About = ({ githubUser, linkedinUser, email, imageSrc }: AboutProps)
           <div className="col-md-6">
             <p className="welcome"> Welcome {"\u{1F44B}"}, I'm</p>
             <img
-              src={ "src/assets/" + imageSrc} // Adjust the path as needed
+              src={"src/assets/" + imageSrc} // Adjust the path as needed
               alt="Site Logo"
               height="auto"
               className="img-fluid about-photo"
@@ -57,6 +63,7 @@ export const About = ({ githubUser, linkedinUser, email, imageSrc }: AboutProps)
               record in application development, junior engineer mentorship &
               process optimization.
             </p>
+            <CommitHeatmap />
           </div>
         </div>
       </div>
