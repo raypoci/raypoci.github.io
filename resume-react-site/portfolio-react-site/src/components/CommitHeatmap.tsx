@@ -3,8 +3,8 @@ import axios from "axios";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import moment from "moment";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // Define types for commit data
 interface Commit {
@@ -92,7 +92,7 @@ const CommitHeatmap: React.FC = () => {
         tooltipList.forEach((tooltip) => tooltip.dispose());
       };
     } else {
-      console.error('Bootstrap is not available');
+      console.error("Bootstrap is not available");
     }
   }, [hoverValue]);
 
@@ -110,7 +110,7 @@ const CommitHeatmap: React.FC = () => {
           return `color-github-${Math.min(4, Math.ceil(value.count / 2))}`;
         }}
         showWeekdayLabels
-        onMouseOver={(event, value) => {
+        onMouseOver={(_event, value) => {
           console.log("Mouse Over Value:", value); // Debugging log
           setHoverValue(value || null);
         }}
