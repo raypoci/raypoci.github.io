@@ -5,6 +5,7 @@ import "react-calendar-heatmap/dist/styles.css";
 import moment from "moment";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import "../App.css"; // Ensure the path is correct
 
 // Define types for commit data
 interface Commit {
@@ -97,7 +98,7 @@ const CommitHeatmap: React.FC = () => {
   }, [hoverValue]);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div className="heatmap-container" style={{ position: "relative" }}>
       <CalendarHeatmap
         startDate={startDate}
         endDate={moment().subtract(4, "year").toDate()}
@@ -109,6 +110,7 @@ const CommitHeatmap: React.FC = () => {
           }
           return `color-github-${Math.min(4, Math.ceil(value.count / 2))}`;
         }}
+        showOutOfRangeDays
         showWeekdayLabels
         onMouseOver={(_event, value) => {
           console.log("Mouse Over Value:", value); // Debugging log
