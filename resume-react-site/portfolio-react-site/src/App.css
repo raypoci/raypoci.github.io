@@ -290,3 +290,90 @@ body, html {
 .github-activity {
   margin-top: 40px; /* Adjust the margin as needed */
 }
+
+
+/* General container styling */
+.experience-container {
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+.experience-container h2 {
+  color: #1abc9c;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.experience-details h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #ffa500;
+}
+
+.experience-details h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1abc9c;
+}
+
+.experience-details p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #b0b0b0;
+}
+
+/* Responsibilities list styling */
+.responsibilities-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-top: 20px;
+}
+
+.responsibilities-list li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .experience-container {
+    padding: 15px;
+  }
+
+  .experience-details h3 {
+    font-size: 1.25rem;
+  }
+
+  .experience-details h4 {
+    font-size: 1rem;
+  }
+
+  .responsibilities-list {
+    padding-left: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .experience-container {
+    padding: 10px;
+  }
+
+  .experience-details h3 {
+    font-size: 1rem;
+  }
+
+  .experience-details h4 {
+    font-size: 0.875rem;
+  }
+
+  .responsibilities-list {
+    padding-left: 10px;
+  }
+}
+
