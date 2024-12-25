@@ -216,7 +216,7 @@ body, html {
 }
 
 .about-container .welcome {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   margin-top: 10px;
   text-align: center;
@@ -302,26 +302,41 @@ body, html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Header styling */
-.experience-container h2 {
-  color: #1abc9c;
-  text-align: center;
+/* Experience card container */
+.experience-card {
+  background-color: #54687a;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
-.experience-details h3 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #ffa500;
+/* Experience header styling */
+.experience-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.experience-details h4 {
+.experience-header img.company-logo {
+  max-width: 100px;
+  margin-right: 20px;
+}
+
+.experience-header h2 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   color: #1abc9c;
 }
 
-.experience-details p {
+.experience-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #ffa500;
+}
+
+.experience-header p {
   margin: 5px 0;
   font-size: 1rem;
   color: #b0b0b0;
@@ -331,7 +346,6 @@ body, html {
 .responsibilities-list {
   list-style-type: disc;
   padding-left: 20px;
-  margin-top: 20px;
 }
 
 .responsibilities-list li {
@@ -340,18 +354,21 @@ body, html {
   line-height: 1.6;
 }
 
-/* Media queries for responsive design */
 @media (max-width: 768px) {
-  .experience-container {
+  .experience-card {
     padding: 15px;
   }
 
-  .experience-details h3 {
-    font-size: 1.25rem;
+  .experience-header img.company-logo {
+    max-width: 80px;
   }
 
-  .experience-details h4 {
-    font-size: 1rem;
+  .experience-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .experience-header h3 {
+    font-size: 1.125rem;
   }
 
   .responsibilities-list {
@@ -360,20 +377,23 @@ body, html {
 }
 
 @media (max-width: 576px) {
-  .experience-container {
+  .experience-card {
     padding: 10px;
   }
 
-  .experience-details h3 {
-    font-size: 1rem;
+  .experience-header img.company-logo {
+    max-width: 60px;
   }
 
-  .experience-details h4 {
-    font-size: 0.875rem;
+  .experience-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .experience-header h3 {
+    font-size: 1rem;
   }
 
   .responsibilities-list {
     padding-left: 10px;
   }
 }
-
