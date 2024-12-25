@@ -5,7 +5,7 @@ import moment from "moment";
 import { Tooltip } from "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
-import { fetchCommits, Commit } from "../utils/FetchCommits";
+import { fetchCommits, Commit, RepoConfig } from "../utils/FetchCommits";
 
 interface HeatmapValue {
   date: string;
@@ -23,13 +23,34 @@ const CommitHeatmap: React.FC = () => {
   const currentTooltip = useRef<Tooltip | null>(null);
   const heatmapRef = useRef<HTMLDivElement>(null);
 
+  const [repos] = useState<RepoConfig[]>([
+    {
+      owner: "raypoci",
+      name: "ReiLovesDiana",
+      isPrivate: true,
+    },
+    {
+      owner: "raypoci",
+      name: "betting_AI",
+      isPrivate: true,
+    },
+    {
+      owner: "raypoci",
+      name: "raypoci.github.io",
+      isPrivate: false,
+    },
+  ]);
+
+  // You should store this securely, preferably in environment variables
+  const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_API_TOKEN;
+
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchCommits();
+      const data = await fetchCommits(repos, GITHUB_TOKEN);
       setCommits(data);
     };
     fetchData();
-  }, []);
+  }, [repos]);
 
   // Grouping commits by date and counting them
   const groupedCommits = commits.reduce(
@@ -113,7 +134,7 @@ const CommitHeatmap: React.FC = () => {
       />
       <CalendarHeatmap
         startDate={startDate}
-        endDate={moment().subtract(4, "year").toDate()}
+        endDate={moment().subtract(4, "years").toDate()}
         values={heatmapData}
         classForValue={(value) => {
           if (!value) {
