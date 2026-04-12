@@ -216,7 +216,7 @@ body, html {
 }
 
 .about-container .welcome {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   margin-top: 10px;
   text-align: center;
@@ -289,4 +289,111 @@ body, html {
 /* Add margin above the Github Activity section */
 .github-activity {
   margin-top: 40px; /* Adjust the margin as needed */
+}
+
+
+/* General container styling */
+.experience-container {
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Experience card container */
+.experience-card {
+  background-color: #54687a;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Experience header styling */
+.experience-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.experience-header img.company-logo {
+  max-width: 100px;
+  margin-right: 20px;
+}
+
+.experience-header h2 {
+  margin: 0;
+  font-size: 1.75rem;
+  color: #1abc9c;
+}
+
+.experience-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #ffa500;
+}
+
+.experience-header p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #b0b0b0;
+}
+
+/* Responsibilities list styling */
+.responsibilities-list {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.responsibilities-list li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .experience-card {
+    padding: 15px;
+  }
+
+  .experience-header img.company-logo {
+    max-width: 80px;
+  }
+
+  .experience-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .experience-header h3 {
+    font-size: 1.125rem;
+  }
+
+  .responsibilities-list {
+    padding-left: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .experience-card {
+    padding: 10px;
+  }
+
+  .experience-header img.company-logo {
+    max-width: 60px;
+  }
+
+  .experience-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .experience-header h3 {
+    font-size: 1rem;
+  }
+
+  .responsibilities-list {
+    padding-left: 10px;
+  }
 }

@@ -26,7 +26,7 @@ export const About = ({
             alt="Profile"
             className="profile-image img-fluid responsive-logo" // Add responsive-logo class
           />
-          <p className="job-position">Software Developer</p>
+          <p className="job-position">Senior Software Developer</p>
           <div className="icon-bar">
             <a
               href={"https://github.com/" + githubUser}

@@ -1,30 +1,14 @@
 import { useState } from "react";
-import { Navbar, NavbarProps } from "./components/Navbar"; // Adjust the path as needed
+import { Navbar } from "./components/Navbar"; // Adjust the path as needed
 import "./App.css"; // Optional: Include any global styles
 import { About } from "./components/About";
+import Experience from "./components/Experience";
+import NavbarData from "./data/NavbarData";
+import { ExperienceData } from "./data/ExperienceData";
 
-const nav_object: NavbarProps[] = [
-  {
-    name: "about",
-    link: "#about", // Update link to match the id of the section
-  },
-  {
-    name: "experience",
-    link: "#experience", // Update link to match the id of the section
-  },
-  {
-    name: "education",
-    link: "#education", // Update link to match the id of the section
-  },
-  {
-    name: "skills",
-    link: "#skills", // Update link to match the id of the section
-  },
-  {
-    name: "interests",
-    link: "#interests", // Update link to match the id of the section
-  },
-];
+const nav_object = NavbarData;
+const experience_object = ExperienceData;
+
 
 function App() {
   const [activeSection, setActiveSection] = useState("about");
@@ -49,8 +33,16 @@ function App() {
         )}
         {activeSection === "experience" && (
           <section id="experience">
-            <h1>Experience</h1>
-            <p>This is the Experience section.</p>
+            {experience_object.map((item) => (
+              <Experience
+                position={item.position}
+                company={item.company}
+                date={item.date}
+                location={item.location}
+                responsibilities={item.responsibilities}
+                image={item.image}
+              />
+            ))}
           </section>
         )}
         {activeSection === "education" && (
