@@ -35,7 +35,7 @@ export const ExperienceData: ExperienceProps[] = [
     date: "05/2023 - 12/2024",
     location: "Boston, MA",
     responsibilities: [
-      "Onboarded and mentored 6 new team members, ensuring seamless integration by providing active training and guidance, fostering technical expertise.",
+      "Led cross-functional teams in developing innovative software solutions, driving strategic initiatives, and improving operational efficiencies.",
       "Effectively managed team members' work, promoting productivity.",
       "Contributed to interviewing and hiring top talent software developers.",
       "Helped shape team composition, driving growth and innovation.",
@@ -60,7 +60,7 @@ export const ExperienceData: ExperienceProps[] = [
     date: "09/2021 - 05/2023",
     location: "Boston, MA",
     responsibilities: [
-      "Onboarded and mentored 6 new team members, ensuring seamless integration by providing active training and guidance, fostering technical expertise.",
+      "Managed end-to-end software development lifecycle, ensuring timely delivery and adherence to industry standards.",
       "Effectively managed team members' work, promoting productivity.",
       "Contributed to interviewing and hiring top talent software developers.",
       "Helped shape team composition, driving growth and innovation.",

@@ -145,6 +145,7 @@ const CommitHeatmap: React.FC = () => {
         showOutOfRangeDays
         onMouseOver={handleMouseOver}
         onMouseLeave={handleMouseLeave}
+        showMonthLabels={false}
       />
     </div>
   );

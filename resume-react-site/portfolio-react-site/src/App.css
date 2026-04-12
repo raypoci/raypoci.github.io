@@ -1,18 +1,44 @@
+:root {
+  --main-bg-color: #5e8b82;
+  --navbar-bg-color: #2c3e50;
+  --navbar-color: #fff;
+  --navbar-item-text-color: undefined;
+  --experience-paragraph-text-color: #e4e3e3;
+  --experience-header2-text-color: #ffa500;
+  --experience-header1-text-color: #55a091;
+  --github-activity-text-color: #55a091;
+  --experince-responsibility-text-color: #fff;
+  --heat-map-empty-color:#ebedf0;
+  --heat-map-color-github-0:#020913;
+  --heat-map-color-github-1:#c6e48b;
+  --heat-map-color-github-2:#7bc96f;
+  --heat-map-color-github-3:#239a3b;
+  --heat-map-color-github-3:#196127;
+}
+
+
 /* General styles */
 body, html {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: 'Roboto', sans-serif;
-  background-color: #2c3e50;
-  color: #fff;
+  background-color: var(--navbar-bg-color);
+  color: var(--navbar-color);
 }
+
+/* For compatibility with various browsers */
+body {
+  -webkit-text-size-adjust: 100%; /* For older versions of Safari and Chrome */
+  text-size-adjust: 100%;         /* For modern browsers like Chrome 54+, Edge 79+, Firefox, and Safari */
+}
+
 
 /* Navbar styles */
 .wider-navbar {
   width: 250px;
   height: 100vh;
-  background-color: #2c3e50;
+  background-color: var(--navbar-bg-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,8 +91,8 @@ body, html {
 
 /* Custom styles for active menu items */
 .navbar-nav .nav-item.custom-active .nav-link {
-  background-color: #1abc9c;
-  color: #fff;
+  background-color: var(--main-bg-color);
+  color: var(--navbar-item-text-color);
   font-weight: bold;
   border-radius: 5px;
 }
@@ -121,12 +147,12 @@ body, html {
 }
 
 .icon-bar a:hover {
-  color: #1abc9c;
+  color: var(--main-bg-color);
 }
 
 /* Add your custom styles here */
 .heatmap-container .color-empty {
-  fill: #ebedf0;
+  fill: var(--heat-map-color-github-0);
 }
 
 .heatmap-container text {
@@ -149,11 +175,11 @@ body, html {
 }
 
 /* Custom styles for different values */
-.heatmap-container .color-github-0 { fill: #ebedf0; }
-.heatmap-container .color-github-1 { fill: #c6e48b; }
-.heatmap-container .color-github-2 { fill: #7bc96f; }
-.heatmap-container .color-github-3 { fill: #239a3b; }
-.heatmap-container .color-github-4 { fill: #196127; }
+.heatmap-container .color-github-0 { fill: var(--heat-map-color-github-0); }
+.heatmap-container .color-github-1 { fill: var(--heat-map-color-github-1); }
+.heatmap-container .color-github-2 { fill: var(--heat-map-color-github-2); }
+.heatmap-container .color-github-3 { fill: var(--heat-map-color-github-3); }
+.heatmap-container .color-github-4 { fill: var(--heat-map-color-github-4); }
 
 .heatmap-container {
   position: relative;
@@ -203,7 +229,7 @@ body, html {
 }
 
 .about-container h2 {
-  color: #1abc9c;
+  color: var(--main-bg-color);
   margin-top: 20px;
   text-align: center;
 }
@@ -271,7 +297,7 @@ body, html {
 }
 
 .about-container .icon-bar a:hover {
-  color: #1abc9c;
+  color: var(--main-bg-color);
 }
 
 /* Image and text alignment */
@@ -289,6 +315,14 @@ body, html {
 /* Add margin above the Github Activity section */
 .github-activity {
   margin-top: 40px; /* Adjust the margin as needed */
+}
+
+.github-activity .github-activity-text{
+  color: var(--github-activity-text-color);
+  font-size: 3rem;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
 }
 
 
@@ -327,19 +361,19 @@ body, html {
 .experience-header h2 {
   margin: 0;
   font-size: 1.75rem;
-  color: #1abc9c;
+  color: var(--experience-header1-text-color);
 }
 
 .experience-header h3 {
   margin: 0;
   font-size: 1.25rem;
-  color: #ffa500;
+  color: var(--experience-header2-text-color);
 }
 
 .experience-header p {
   margin: 5px 0;
   font-size: 1rem;
-  color: #b0b0b0;
+  color: var(--experience-responsibility-text-color);
 }
 
 /* Responsibilities list styling */
@@ -395,5 +429,96 @@ body, html {
 
   .responsibilities-list {
     padding-left: 10px;
+  }
+}
+
+
+.floating-bullets {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.bullet {
+  background-color: var(--main-bg-color);
+  color: var(--experience-paragraph-text-color);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  margin: 5px;
+  flex-basis: calc(33.333% - 30px); /* Base width for larger screens */
+  animation: floatIn 1s ease-out forwards;
+}
+
+/* Create varying widths for brick effect */
+.bullet:nth-child(3n + 1) {
+  flex-basis: calc(30% - 30px);
+}
+
+.bullet:nth-child(3n + 2) {
+  flex-basis: calc(35% - 30px);
+}
+
+.bullet:nth-child(3n + 3) {
+  flex-basis: calc(40% - 30px);
+}
+
+/* Offset every other row for brick pattern */
+.bullet:nth-child(6n + 4),
+.bullet:nth-child(6n + 5),
+.bullet:nth-child(6n + 6) {
+  margin-left: calc(5% + 10px);
+}
+
+/* Hover effect with slight color variation */
+.bullet:hover {
+  background-color: #16a085;
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 992px) {
+  .bullet {
+    flex-basis: calc(50% - 30px);
+  }
+  
+  .bullet:nth-child(3n + 1),
+  .bullet:nth-child(3n + 2),
+  .bullet:nth-child(3n + 3) {
+    flex-basis: calc(50% - 30px);
+  }
+  
+  .bullet:nth-child(4n + 3),
+  .bullet:nth-child(4n + 4) {
+    margin-left: calc(12.5% + 15px);
+  }
+}
+
+@media (max-width: 576px) {
+  .bullet {
+    flex-basis: calc(100% - 30px);
+  }
+  
+  .bullet:nth-child(n) {
+    flex-basis: calc(100% - 30px);
+    margin-left: 5px;
+  }
+}
+
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
