@@ -1,4 +1,5 @@
 import React from "react";
+import FloatingBullets from "../utils/FloatingBullets";
 
 export interface ExperienceProps {
   position: string;
@@ -33,11 +34,7 @@ const Experience: React.FC<ExperienceProps> = ({
           <p>{location}</p>
         </div>
       </div>
-      <ul className="responsibilities-list">
-        {responsibilities.map((responsibility, index) => (
-          <li key={index}>{responsibility}</li>
-        ))}
-      </ul>
+      <FloatingBullets bulletPoints={responsibilities} />
     </div>
   );
 };

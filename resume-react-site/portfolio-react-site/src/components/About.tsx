@@ -59,7 +59,7 @@ export const About = ({
         </div>
       </div>
       <div className="container github-activity">
-        <h2>Github Activity</h2>
+        <h2 className="github-activity-text">Github Activity</h2>
         <CommitHeatmap />
       </div>
     </div>
